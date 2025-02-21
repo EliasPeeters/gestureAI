@@ -29,7 +29,7 @@ def extract_hand_landmarks(image):
 @app.get("/")
 async def read_root():
     return {"Hello": "World"}
-@app.post("/predict/")
+@app.post("/predict")
 async def predict_hand_sign(file: UploadFile = File(...)):
     """ Empfängt ein Bild, analysiert das Handzeichen und gibt den Buchstaben zurück. """
     # Bild einlesen
