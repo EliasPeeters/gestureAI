@@ -18,7 +18,7 @@ COPY api.py .
 COPY model/asl_model.pkl model/
 
 # Port freigeben
-EXPOSE 8000
+EXPOSE 6666
 
 # API starten
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "6666"]
