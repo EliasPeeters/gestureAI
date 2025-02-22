@@ -2,7 +2,7 @@ import cv2
 import requests
 import time
 
-API_URL = "http://localhost:8000/predict/"
+API_URL = "http://localhost:6666/v2/predict"
 
 cap = cv2.VideoCapture(0)
 
