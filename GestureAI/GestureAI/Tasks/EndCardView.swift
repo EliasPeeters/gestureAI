@@ -8,20 +8,31 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct EndCardView: View {
-    let title: String
+    let imageName: String
     let value: String
+    let label: String
 
     var body: some View {
-        VStack {
-            Text(title)
-                .font(.headline)
-                .foregroundColor(.gray)
-            Text(value)
-                .font(.title)
-                .bold()
+        HStack {
+            Image(imageName)
+                .resizable()
+                .frame(width: 40, height: 40)
+                .foregroundColor(.white)
+            
+            VStack(alignment: .leading) {
+                Text(value)
+                    .font(.headline)
+                    .foregroundColor(.black)
+                Text(label)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
         }
-        .frame(width: 100, height: 100)
+        .frame(maxWidth: .infinity)
+        .padding()
         .background(Color.white)
         .cornerRadius(12)
         .shadow(radius: 3)

@@ -13,41 +13,48 @@ enum TaskType: String, Codable {
     case imageToText  // Bild → richtige Antwort wählen
     case textToImage  // Text → richtiges Bild wählen
     case aiGesture    // Kamera → KI erkennt Geste
+    case introduce
 }
 
-struct Task: Identifiable, Codable, Equatable {
+struct SingleTask: Identifiable, Codable, Equatable {
     var id = UUID()
     let type: TaskType
     let question: String
-    let options: [String] // Mögliche Antworten (für Typ A & B)
+    let text: String?
+    let options: [String] // ✅ Wird jetzt für ALLE Aufgabenarten verwendet
     let correctAnswer: String
-    let imageName: String? // ✅ Optionales Feld für Aufgaben mit Bild
+    let imageName: String? // ✅ Optional für imageToText
+    let points: Int
 
-    // ✅ Equatable-Konformität implementieren
-    static func == (lhs: Task, rhs: Task) -> Bool {
+    // ✅ Equatable-Konformität
+    static func == (lhs: SingleTask, rhs: SingleTask) -> Bool {
         return lhs.id == rhs.id
     }
     
-    init(type: TaskType, question: String, options: [String], correctAnswer: String, imageName: String? = nil) {
-            self.id = UUID()
-            self.type = type
-            self.question = question
-            self.options = options
-            self.correctAnswer = correctAnswer
-            self.imageName = (type == .imageToText) ? imageName : nil // ✅ Nur für imageToText
-        }
+    init(type: TaskType, question: String, options: [String], correctAnswer: String, imageName: String? = nil, points: Int, text: String? = nil) {
+        self.id = UUID()
+        self.type = type
+        self.question = question
+        self.options = options
+        self.correctAnswer = correctAnswer
+        self.imageName = imageName
+        self.points = points
+        self.text = text
+    }
 }
 
 struct Lesson: Identifiable, Codable {
     let id: String
     let title: String
+    let image: String
     var isUnlocked: Bool
-    var tasks: [Task]
+    var tasks: [SingleTask]
 
-    init(id:String, title: String, isUnlocked: Bool, tasks: [Task]) {
+    init(id:String, title: String, isUnlocked: Bool, tasks: [SingleTask], image:String) {
         self.id = id
         self.title = title
         self.isUnlocked = isUnlocked
         self.tasks = tasks
+        self.image = image
     }
 }

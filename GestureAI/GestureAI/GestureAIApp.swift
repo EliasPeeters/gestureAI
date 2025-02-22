@@ -11,7 +11,10 @@ import SwiftUI
 struct GestureAIApp: App {
     var body: some Scene {
         WindowGroup {
-            LessonOverviewView()
+            ZStack {
+                Color.red.ignoresSafeArea() // ✅ Hintergrundfarbe für gesamte App
+                LessonOverviewView()
+            }
         }
     }
 }

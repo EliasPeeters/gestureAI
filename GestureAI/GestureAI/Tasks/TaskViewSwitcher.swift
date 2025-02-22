@@ -9,8 +9,8 @@ import SwiftUI
 
 // Aufgabe-View Umschalter mit Animation
 struct TaskViewSwitcher: View {
-    let task: Task
-    var onNext: (Bool) -> Void
+    let task: SingleTask
+    var onNext: (Bool, Int) -> Void
     @State private var showNewTask = false
     
     var body: some View {
@@ -32,12 +32,14 @@ struct TaskViewSwitcher: View {
     
     // Funktion zur Rückgabe der richtigen View je nach Task-Typ
     @ViewBuilder
-    private func getTaskView(_ task: Task) -> some View {
+    private func getTaskView(_ task: SingleTask) -> some View {
         switch task.type {
         case .imageToText:
             ImageToTextTaskView(task: task, onNext: onNext)
         case .textToImage:
             TextToImageTaskView(task: task, onNext: onNext)
+        case .introduce:
+            IntroduceTaskView(task: task, onNext: onNext)
         case .aiGesture:
             AIGestureTaskView(task: task, onNext: onNext)
         }

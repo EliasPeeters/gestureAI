@@ -22,7 +22,7 @@ struct ProgressBarView: View {
                 // Fortschrittsbalken (animiert)
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: geometry.size.width * progress, height: 10)
-                    .foregroundColor(Color.blue)
+                    .foregroundColor(Color.customGreen)
                     .animation(.easeInOut(duration: 0.3), value: progress)
             }
         }

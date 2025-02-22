@@ -11,7 +11,6 @@ struct LessonDetailView: View {
     let lesson: Lesson
     @ObservedObject var progressManager: LessonProgressManager
     @State private var currentTaskIndex = 0
-    @State private var startTime = Date()
     @State private var score = 0
     @State private var mistakes = 0
     @Environment(\.presentationMode) var presentationMode
@@ -22,13 +21,6 @@ struct LessonDetailView: View {
         return CGFloat(currentTaskIndex) / CGFloat(lesson.tasks.count)
     }
     
-    var timeElapsed: String {
-        let elapsed = Int(Date().timeIntervalSince(startTime))
-        let minutes = elapsed / 60
-        let seconds = elapsed % 60
-        return "\(minutes) min \(seconds) sec"
-    }
-    
     var body: some View {
         ZStack {
             Color.white.ignoresSafeArea()
@@ -36,16 +28,16 @@ struct LessonDetailView: View {
             VStack {
                 if currentTaskIndex < lesson.tasks.count {
                     let task = lesson.tasks[currentTaskIndex]
-                    TaskViewSwitcher(task: task, onNext: { isCorrect in
+                    TaskViewSwitcher(task: task, onNext: { (isCorrect, points) in
                         if isCorrect {
-                            score += 5
+                            score += points
                         } else {
                             mistakes += 1
                         }
                         currentTaskIndex += 1
                     })
                 } else {
-                    EndScreenView(lesson: lesson, score: score, mistakes: mistakes, timeElapsed: timeElapsed, progressManager: progressManager)
+                    EndScreenView(lesson: lesson, score: score, mistakes: mistakes, progressManager: progressManager)
                 }
             }
             .padding()
@@ -56,9 +48,9 @@ struct LessonDetailView: View {
                     Button(action: {
                         showExitConfirmation = true
                     }) {
-                        Image(systemName: "chevron.left")
+                        Image("back")
                             .resizable()
-                            .frame(width: 15, height: 20)
+                            .frame(width: 30, height: 30)
                             .foregroundColor(.black)
                     }
                     .padding(.leading, 20)
@@ -70,9 +62,18 @@ struct LessonDetailView: View {
                         .multilineTextAlignment(.center)
 
                     Spacer()
-                    Rectangle()
-                        .frame(width: 15, height: 20)
-                        .opacity(0)
+                    
+                    HStack {
+                        Image("points")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.white)
+                        
+                        Text("\(score)")
+                            .font(.headline)
+                            .foregroundColor(.black)
+                    }
+                    
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 20)
